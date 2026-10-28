@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030b17">
+  <meta name="description" content="Book your tattoo appointment with Elite Ink. Choose your tattoo, share your design, and request your preferred appointment time.">
+  <title>Book an Appointment | Elite Ink</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #030b17;
+      color: #f2f6ff;
+      font-family: Arial, sans-serif;
+    }
+
+    .booking-wrap {
+      max-width: 650px;
+      margin: 35px auto;
+      padding: 0 16px 40px;
+    }
+
+    .booking-box {
+      background: #071321;
+      border: 1px solid #153452;
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    h1, h2 {
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      color: #a6bad4;
+      line-height: 1.7;
+    }
+
+    .step-label {
+      color: #168cff;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .progress {
+      height: 5px;
+      background: #183958;
+      border-radius: 5px;
+      margin: 15px 0 28px;
+      overflow: hidden;
+    }
+
+    #progressFill {
+      height: 100%;
+      width: 25%;
+      background: #168cff;
+      transition: width .25s;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .field {
+      margin: 20px 0;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #244665;
+      background: #030b17;
+      color: #f2f6ff;
+      font: inherit;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: 2px solid #168cff;
+      outline-offset: 1px;
+    }
+
+    .field textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .choice {
+      padding: 18px 12px;
+      background: #030b17;
+      color: #f2f6ff;
+      border: 1px solid #244665;
+      border-radius: 10px;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: border-color .2s, background .2s;
+    }
+
+    .choice:hover {
+      border-color: #168cff;
+    }
+
+    .choice.selected {
+      border: 2px solid #168cff;
+      background: #0b2037;
+    }
+
+    .choice span {
+      display: block;
+      color: #168cff;
+      margin-top: 8px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .actions button {
+      min-height: 46px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    #backBtn {
+      background: transparent;
+      color: white;
+      border: 1px solid #244665;
+    }
+
+    #nextBtn {
+      background: #168cff;
+      color: white;
+      border: 1px solid #168cff;
+    }
+
+    #nextBtn:hover {
+      background: #0875df;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .note {
+      color: #8fbde8;
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    .review {
+      background: #030b17;
+      border: 1px solid #183958;
+      padding: 16px;
+      border-radius: 8px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .review-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid #183958;
+    }
+
+    .review-row:last-child {
+      border-bottom: none;
+    }
+
+    .review-row span:last-child {
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    #elite-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      background: #030b17;
+      transition: opacity .5s, visibility .5s;
+    }
+
+    #elite-loader.loader-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .elite-loader-logo {
+      color: #f2f6ff;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: 6px;
+    }
+
+    .elite-loader-logo span {
+      color: #168cff;
+    }
+
+    .elite-loader-ring {
+      width: 58px;
+      height: 58px;
+      border: 4px solid #183958;
+      border-top-color: #168cff;
+      border-right-color: #168cff;
+      border-radius: 50%;
+      animation: eliteSpin .8s linear infinite;
+    }
+
+    .elite-loader-text {
+      color: #a6bad4;
+      font-size: 12px;
+      letter-spacing: 3px;
+    }
+
+    @keyframes eliteSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-wrap {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .navigation {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .navigation a {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .booking-box {
+        padding: 18px;
+      }
+
+      .choices {
+        grid-template-columns: 1fr;
+      }
+
+      .review-row {
+        gap: 8px;
+        font-size: 13px;
+      }
+
+      .actions button {
+        padding: 12px 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .elite-loader-ring {
+        animation: none;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="elite-loader" role="status" aria-live="polite">
+  <div class="elite-loader-logo">
+    ELITE <span>INK</span>
+  </div>
+
+  <div class="elite-loader-ring"></div>
+
+  <div class="elite-loader-text">
+    PREPARING YOUR EXPERIENCE
+  </div>
+</div>
+
+<script>
+(function () {
+  const loader = document.getElementById("elite-loader");
+
+  function hideLoader() {
+    loader.classList.add("loader-hidden");
+  }
+
+  window.addEventListener("load", function () {
+    setTimeout(hideLoader, 500);
+  });
+
+  setTimeout(hideLoader, 4000);
+})();
+</script>
+
+<header class="site-header">
+  <div class="nav-wrap">
+
+    <a class="brand" href="Index.html">
+      ELITE <span>INK</span>
+    </a>
+
+    <nav class="navigation" aria-label="Main navigation">
+      <a href="Index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="prices.html">Prices</a>
+      <a class="active" href="booking.html">Book Appointment</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="booking-wrap">
+
+  <div id="bookingHeading">
+    <h1>Book Your Appointment</h1>
+
+    <p class="subtitle">
+      Your tattoo journey starts here. 
+    </p>
+  </div>
+
+  <section class="booking-box" id="bookingBox">
+
+    <div class="step-label" id="stepLabel">
+      STEP 1 OF 4 — CHOOSE TATTOO
+    </div>
+
+    <div
+      class="progress"
+      role="progressbar"
+      aria-label="Booking progress"
+      aria-valuemin="1"
+      aria-valuemax="4"
+      aria-valuenow="1"
+      id="progressBar"
+    >
+      <div id="progressFill"></div>
+    </div>
+
+    <form id="bookingForm" novalidate>
+
+      <!-- STEP 1: CHOOSE TATTOO -->
+
+      <section class="step active">
+
+        <h2>Choose Your Tattoo</h2>
+
+        <p class="subtitle">
+          Select the category that best fits your design.
+        </p>
+
+        <div class="choices">
+
+          <button
+            type="button"
+            class="choice"
+            data-service="Small Tattoo"
+            data-price="From $400"
+            aria-pressed="false"
+          >
+            <strong>Small Tattoo</strong>
+            <span>From $400</span>
+          </button>
+
+          <button
+            type="button"
+            class="choice"
+            data-service="Medium Tattoo"
+            data-price="From $600"
+            aria-pressed="false"
+          >
+            <strong>Medium Tattoo</strong>
+            <span>From $600</span>
+          </button>
+
+          <button
+            type="button"
+            class="choice"
+            data-service="Large Tattoo"
+            data-price="From $900"
+            aria-pressed="false"
+          >
+            <strong>Large Tattoo</strong>
+            <span>From $900</span>
+          </button>
+
+          <button
+            type="button"
+            class="choice"
+            data-service="Sleeve / Large-Scale Work"
+            data-price="From $1,500"
+            aria-pressed="false"
+          >
+            <strong>Sleeves &amp; Large Work</strong>
+            <span>From $1,500</span>
+          </button>
+
+        </div>
+
+        <div class="field">
+          <label for="design">Describe your design</label>
+
+          <textarea
+            id="design"
+            name="design"
+            placeholder="Describe your tattoo idea"
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label for="placement">Body placement</label>
+
+          <input
+            id="placement"
+            name="placement"
+            placeholder="e.g. arm, chest, shoulder"
+          >
+        </div>
+
+      </section>
+
+      <!-- STEP 2: YOUR DETAILS -->
+
+      <section class="step">
+
+        <h2>Your Details</h2>
+
+        <div class="field">
+          <label for="customerName">Full name *</label>
+
+          <input
+            id="customerName"
+            name="customerName"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number *</label>
+
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="email">Email address (optional)</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+          >
+        </div>
+
+      </section>
+
+      <!-- STEP 3: APPOINTMENT TIME -->
+
+      <section class="step">
+
+        <h2>Choose Appointment Time</h2>
+
+        <div class="field">
+          <label for="date">Preferred date *</label>
+
+          <input
+            id="date"
+            name="date"
+            type="date"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label for="time">Preferred time *</label>
+
+          <select id="time" name="time" required>
+            <option value="">Choose a time</option>
+            <option>09:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>01:00 PM</option>
+            <option>02:00 PM</option>
+            <option>03:00 PM</option>
+            <option>04:00 PM</option>
+          </select>
+        </div>
+
+        <p class="note">
+          Your selected time is a request. The studio must approve it
+          before your appointment is confirmed.
+        </p>
+
+      </section>
+
+      <!-- STEP 4: REVIEW BOOKING -->
+
+      <section class="step">
+
+        <h2>Review Your Booking</h2>
+
+        <p class="subtitle">
+          check your payment option before continue
+        </p>
+
+        <div class="review" id="review"></div>
+
+        <p class="note">
+          
+        </p>
+
+        <label class="note" style="display:block;margin-top:18px">
+          <input
+            type="checkbox"
+            id="agree"
+            style="width:auto"
+          >
+
+        CARD PAYMENT                            
+        </label>
+
+      </section>
+
+      <div class="actions">
+
+        <button type="button" id="backBtn">
+          Back
+        </button>
+
+        <button type="button" id="nextBtn">
+          Continue
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+</main>
+
+<script>
+(function () {
+  const steps = Array.from(document.querySelectorAll(".step"));
+
+  const form = document.getElementById("bookingForm");
+  const backBtn = document.getElementById("backBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const progressFill = document.getElementById("progressFill");
+  const progressBar = document.getElementById("progressBar");
+  const stepLabel = document.getElementById("stepLabel");
+
+  let currentStep = 0;
+  let service = "";
+  let price = "";
+
+  const stepNames = [
+    "CHOOSE TATTOO",
+    "YOUR DETAILS",
+    "APPOINTMENT",
+    "REVIEW BOOKING"
+  ];
+
+  const dateInput = document.getElementById("date");
+
+  const now = new Date();
+
+  const today = new Date(
+    now.getTime() - now.getTimezoneOffset() * 60000
+  ).toISOString().slice(0, 10);
+
+  dateInput.min = today;
+
+  // Select a tattoo category.
+
+  document.querySelectorAll(".choice").forEach(function (button) {
+    button.addEventListener("click", function () {
+      service = button.dataset.service;
+      price = button.dataset.price;
+
+      document.querySelectorAll(".choice").forEach(function (item) {
+        item.classList.remove("selected");
+        item.setAttribute("aria-pressed", "false");
+      });
+
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+    });
+  });
+
+  // Safely create a row in the booking review.
+
+  function addRow(container, title, value) {
+    const row = document.createElement("div");
+    row.className = "review-row";
+
+    const left = document.createElement("span");
+    left.textContent = title;
+
+    const right = document.createElement("span");
+    right.textContent = value || "Not provided";
+
+    row.append(left, right);
+
+    container.appendChild(row);
+  }
+
+  // Display the booking information for review.
+
+  function buildReview() {
+    const review = document.getElementById("review");
+
+    review.replaceChildren();
+
+    addRow(review, "Tattoo", service);
+    addRow(review, "Starting price", price);
+
+    addRow(
+      review,
+      "Design",
+      document.getElementById("design").value.trim()
+    );
+
+    addRow(
+      review,
+      "Placement",
+      document.getElementById("placement").value.trim()
+    );
+
+    addRow(
+      review,
+      "Full name",
+      document.getElementById("customerName").value.trim()
+    );
+
+    addRow(
+      review,
+      "Phone",
+      document.getElementById("phone").value.trim()
+    );
+
+    addRow(
+      review,
+      "Email",
+      document.getElementById("email").value.trim()
+    );
+
+    addRow(review, "Preferred date", dateInput.value);
+
+    addRow(
+      review,
+      "Preferred time",
+      document.getElementById("time").value
+    );
+  }
+
+  // Show the requested booking step.
+
+  function showStep(index) {
+    currentStep = index;
+
+    steps.forEach(function (step, i) {
+      step.classList.toggle("active", i === index);
+    });
+
+    stepLabel.textContent =
+      "STEP " + (index + 1) + " OF 4 — " + stepNames[index];
+
+    progressFill.style.width =
+      ((index + 1) * 25) + "%";
+
+    progressBar.setAttribute("aria-valuenow", index + 1);
+
+    backBtn.style.visibility =
+      index === 0 ? "hidden" : "visible";
+
+    if (index === 3) {
+      buildReview();
+      nextBtn.textContent = "BOOKING fee 0.30$";
+    } else {
+      nextBtn.textContent = "Continue";
+    }
+  }
+
+  // Validate the information entered on each step.
+
+  function validateCurrentStep() {
+    if (currentStep === 0 && !service) {
+      alert("Please choose a tattoo category.");
+      return false;
+    }
+
+    if (currentStep === 1) {
+      const customerName =
+        document.getElementById("customerName");
+
+      const phone =
+        document.getElementById("phone");
+
+      const email =
+        document.getElementById("email");
+
+      if (!customerName.value.trim()) {
+        alert("Please enter your full name.");
+        customerName.focus();
+        return false;
+      }
+
+      if (!phone.value.trim()) {
+        alert("Please enter your phone number.");
+        phone.focus();
+        return false;
+      }
+
+      if (email.value.trim() && !email.checkValidity()) {
+        alert("Please enter a valid email address.");
+        email.focus();
+        return false;
+      }
+    }
+
+    if (currentStep === 2) {
+      const time = document.getElementById("time");
+
+      if (!dateInput.value || !time.value) {
+        alert("Please select a preferred date and time.");
+        return false;
+      }
+
+      if (dateInput.value < today) {
+        alert("Please select today or a future date.");
+        dateInput.focus();
+        return false;
+      }
+    }
+
+    if (
+      currentStep === 3 &&
+      !document.getElementById("agree").checked
+    ) {
+      alert("Please confirm that you have Choose your payment option");
+      return false;
+    }
+
+    return true;
+  }
+
+  // Continue through the booking form.
+
+  nextBtn.addEventListener("click", function () {
+    if (!validateCurrentStep()) {
+      return;
+    }
+
+    if (currentStep < 3) {
+      showStep(currentStep + 1);
+      return;
+    }
+
+    // Save booking details for the next page.
+
+    const booking = {
+      service: service,
+      price: price,
+
+      design:
+        document.getElementById("design").value.trim(),
+
+      placement:
+        document.getElementById("placement").value.trim(),
+
+      name:
+        document.getElementById("customerName").value.trim(),
+
+      phone:
+        document.getElementById("phone").value.trim(),
+
+      email:
+        document.getElementById("email").value.trim(),
+
+      date: dateInput.value,
+
+      time:
+        document.getElementById("time").value,
+
+      status: "Pending confirmation",
+
+      payment: "Cash at studio",
+
+      receiptNo:
+        "EI-" + Date.now().toString().slice(-8)
+    };
+
+    try {
+      sessionStorage.setItem(
+        "eliteInkBooking",
+        JSON.stringify(booking)
+      );
+
+      window.location.href = "details.html";
+
+    } catch (error) {
+      alert(
+        "Your browser could not save this booking. " +
+        "Please open the website in your browser and try again."
+      );
+    }
+  });
+
+  // Return to the previous step.
+
+  backBtn.addEventListener("click", function () {
+    if (currentStep > 0) {
+      showStep(currentStep - 1);
+    }
+  });
+
+  // Optional tattoo category preselection from another page.
+
+  const requested =
+    new URLSearchParams(window.location.search).get("service") || "";
+
+  document.querySelectorAll(".choice").forEach(function (button) {
+    if (
+      requested &&
+      button.dataset.service.toLowerCase().includes(
+        requested.toLowerCase()
+      )
+    ) {
+      button.click();
+    }
+  });
+
+  // Start on the first step.
+
+  showStep(0);
+
+})();
+</script>
+
+</body>
+</html>

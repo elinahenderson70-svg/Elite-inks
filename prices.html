@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05070d">
+  <title>Pricing | Elite Ink</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root {
+      --bg: #05070d;
+      --card: #0d1220;
+      --blue: #168cff;
+      --light-blue: #67bdff;
+      --text: #f5f8ff;
+      --muted: #a5b0c4;
+      --border: rgba(100, 170, 255, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 7, 13, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: var(--blue);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 22px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 0.92rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--light-blue);
+    }
+
+    .hero {
+      padding: 85px 5% 60px;
+      text-align: center;
+      background: radial-gradient(
+        ellipse at top,
+        rgba(22, 140, 255, 0.17),
+        transparent 65%
+      );
+    }
+
+    .eyebrow {
+      color: var(--light-blue);
+      font-size: 0.78rem;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    h1 span {
+      color: var(--blue);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: var(--muted);
+    }
+
+    .pricing-section {
+      max-width: 1150px;
+      margin: auto;
+      padding: 20px 5% 80px;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin-bottom: 10px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .price-card {
+      position: relative;
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .price-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--blue);
+    }
+
+    .price-card.featured {
+      border-color: var(--blue);
+      box-shadow: 0 0 28px rgba(22, 140, 255, 0.12);
+    }
+
+    .badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 5px 10px;
+      margin-bottom: 16px;
+      border-radius: 20px;
+      background: rgba(22, 140, 255, 0.15);
+      color: var(--light-blue);
+      font-size: 0.72rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .price-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      min-height: 48px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .price {
+      margin-bottom: 20px;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--light-blue);
+    }
+
+    .price small {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.75rem;
+      font-weight: normal;
+      color: var(--muted);
+    }
+
+    .features {
+      list-style: none;
+      margin-bottom: 28px;
+      flex: 1;
+    }
+
+    .features li {
+      margin: 12px 0;
+      color: #d7deeb;
+      font-size: 0.9rem;
+    }
+
+    .features li::before {
+      content: "✓";
+      color: var(--blue);
+      font-weight: bold;
+      margin-right: 9px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 13px 16px;
+      text-align: center;
+      background: var(--blue);
+      color: white;
+      font-weight: bold;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #0874db;
+    }
+
+    .note {
+      margin-top: 28px;
+      padding: 18px;
+      background: rgba(22, 140, 255, 0.07);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .faq {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 0 5% 80px;
+    }
+
+    .faq h2 {
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .faq-item {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item h3 {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .faq-item p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .cta {
+      max-width: 1050px;
+      margin: 0 auto 80px;
+      padding: 45px 25px;
+      text-align: center;
+      background: linear-gradient(
+        135deg,
+        rgba(22, 140, 255, 0.16),
+        rgba(13, 18, 32, 0.95)
+      );
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    .cta h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .cta .btn {
+      display: inline-block;
+      width: auto;
+      padding: 13px 25px;
+    }
+
+    footer {
+      padding: 25px 5%;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    footer span {
+      color: var(--blue);
+    }
+
+    @media (max-width: 950px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .navbar {
+        flex-direction: column;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .description {
+        min-height: auto;
+      }
+
+      .cta {
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="navbar">
+      <a href="Index.html" class="logo">ELITE<span>INK</span></a>
+
+      <nav aria-label="Main navigation">
+        <a href="Index.html">Home</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="prices.html" class="active">Prices</a>
+        <a href="booking.html">Book Now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Simple • Clear • Transparent</div>
+      <h1>Our <span>Pricing.</span></h1>
+      <p>
+        Choose a starting package for your next tattoo. Final pricing can vary
+        depending on the design, placement, detail, and time required.
+      </p>
+    </section>
+
+    <section class="pricing-section">
+      <div class="section-heading">
+        <h2>Choose Your Package</h2>
+        <p>Find the option that suits your design idea.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="price-card">
+          <span class="badge">Starter</span>
+          <h3>Small Tattoo</h3>
+          <p class="description">
+            Ideal for small symbols, simple lettering, and minimal designs.
+          </p>
+
+          <div class="price">
+            $400
+            <small>Starting price</small>
+          </div>
+
+          <ul class="features">
+            <li>Small design concept</li>
+            <li>Simple details</li>
+            <li>Placement consultation</li>
+            <li>Appointment planning</li>
+          </ul>
+
+          <a href="booking.html" class="btn" data-package="Small">
+            Choose Small
+          </a>
+        </article>
+
+        <article class="price-card featured">
+          <span class="badge">Popular</span>
+          <h3>Medium Tattoo</h3>
+          <p class="description">
+            A good fit for designs with more detail and a larger placement.
+          </p>
+
+          <div class="price">
+            $600
+            <small>Starting price</small>
+          </div>
+
+          <ul class="features">
+            <li>Medium-sized artwork</li>
+            <li>More design detail</li>
+            <li>Placement consultation</li>
+            <li>Appointment planning</li>
+          </ul>
+
+          <a href="booking.html" class="btn" data-package="Medium">
+            Choose Medium
+          </a>
+        </article>
+
+        <article class="price-card">
+          <span class="badge">Detailed</span>
+          <h3>Large Tattoo</h3>
+          <p class="description">
+            For larger artwork with more space for creative detail.
+          </p>
+
+          <div class="price">
+            $900
+            <small>Starting price</small>
+          </div>
+
+          <ul class="features">
+            <li>Large design concept</li>
+            <li>Detailed artwork planning</li>
+            <li>Placement consultation</li>
+            <li>Appointment planning</li>
+          </ul>
+
+          <a href="booking.html" class="btn" data-package="Large">
+            Choose Large
+          </a>
+        </article>
+
+        <article class="price-card">
+          <span class="badge">Full Project</span>
+          <h3>Sleeve Tattoo</h3>
+          <p class="description">
+            A larger project planned around the arm and your overall concept.
+          </p>
+
+          <div class="price">
+            $1,500
+            <small>Starting price</small>
+          </div>
+
+          <ul class="features">
+            <li>Large-scale concept</li>
+            <li>Design planning</li>
+            <li>Placement consultation</li>
+            <li>Project scheduling</li>
+          </ul>
+
+          <a href="booking.html" class="btn" data-package="Sleeves">
+            Choose Sleeve
+          </a>
+        </article>
+      </div>
+
+      <div class="note">
+        <strong>Important:</strong> These are example starting prices.
+        Confirm your studio's actual prices before publishing this page.
+        Your final quote may depend on the design and session requirements.
+      </div>
+    </section>
+
+    <section class="faq">
+      <h2>Pricing Questions</h2>
+
+      <div class="faq-item">
+        <h3>Does the final price ever change?</h3>
+        <p>
+          Yes. The final quote may depend on the design's size, complexity,
+          placement, and the time needed to complete it.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I discuss my own design?</h3>
+        <p>
+          Yes. Use the booking page to begin your appointment request and
+          discuss the design you have in mind.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I get started?</h3>
+        <p>
+          Choose a package above or visit the booking page to submit your
+          appointment details.
+        </p>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Your Idea. Your Style. Your Ink.</h2>
+      <p>Ready to start planning your next tattoo?</p>
+      <a href="booking.html" class="btn">Book an Appointment</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Elite Ink. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.querySelectorAll("[data-package]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        try {
+          sessionStorage.setItem(
+            "eliteInkSelectedPackage",
+            button.dataset.package
+          );
+        } catch (error) {
+          // Booking navigation still works if session storage is unavailable.
+        }
+      });
+    });
+  </script>
+</body>
+</html>

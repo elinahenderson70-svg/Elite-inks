@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Black & Grey Tattoo Gallery | Elite Ink</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<style>
+:root {
+  --gallery-bg: #080b12;
+  --gallery-panel: #111722;
+  --gallery-border: #273449;
+  --gallery-blue: #4387ff;
+  --gallery-text: #f5f7fc;
+  --gallery-muted: #a4aec0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--gallery-bg);
+  color: var(--gallery-text);
+}
+
+/* GALLERY INTRO */
+
+.gallery-hero {
+  text-align: center;
+  padding: 65px 20px 35px;
+}
+
+.gallery-label {
+  display: inline-block;
+  color: var(--gallery-blue);
+  border: 1px solid rgba(67,135,255,.35);
+  background: rgba(67,135,255,.08);
+  padding: 8px 15px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 18px;
+}
+
+.gallery-hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.15;
+  margin: 0 0 18px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.gallery-hero h1 span {
+  color: var(--gallery-blue);
+}
+
+.gallery-hero p {
+  max-width: 650px;
+  margin: 0 auto;
+  color: var(--gallery-muted);
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* STYLE LABEL */
+
+.gallery-section {
+  width: min(1250px, 100%);
+  padding: 15px 22px 70px;
+  margin: 0 auto;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--gallery-border);
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.section-heading span {
+  color: var(--gallery-muted);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* TATTOO GRID */
+
+.tattoo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.tattoo-card {
+  background: var(--gallery-panel);
+  border: 1px solid var(--gallery-border);
+  border-radius: 13px;
+  overflow: hidden;
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.tattoo-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gallery-blue);
+  box-shadow: 0 12px 32px rgba(0,0,0,.28);
+}
+
+/* LARGE, DETAILED PHOTOGRAPHS */
+
+.tattoo-image {
+  position: relative;
+  overflow: hidden;
+  background: #080b12;
+  aspect-ratio: 4 / 5;
+}
+
+.tattoo-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Keep the artwork black and grey */
+  filter: grayscale(100%) contrast(1.08);
+
+  transition:
+    transform .5s ease,
+    filter .3s ease;
+}
+
+.tattoo-card:hover .tattoo-image img {
+  transform: scale(1.045);
+  filter: grayscale(100%) contrast(1.15);
+}
+
+.image-label {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 5px;
+  background: rgba(5,8,13,.82);
+  color: white;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+  backdrop-filter: blur(8px);
+}
+
+/* CARD DETAILS */
+
+.tattoo-info {
+  padding: 18px;
+}
+
+.tattoo-info h3 {
+  font-size: 17px;
+  margin: 0 0 9px;
+}
+
+.tattoo-info p {
+  color: var(--gallery-muted);
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* BOOKING CTA */
+
+.gallery-cta {
+  width: min(850px, calc(100% - 36px));
+  margin: 0 auto 65px;
+  padding: 35px 25px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 50% 0,
+      rgba(67,135,255,.15),
+      transparent 70%
+    ),
+    var(--gallery-panel);
+  border: 1px solid var(--gallery-border);
+  border-radius: 16px;
+}
+
+.gallery-cta h2 {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+
+.gallery-cta p {
+  color: var(--gallery-muted);
+  line-height: 1.8;
+  font-size: 14px;
+  margin: 0 auto 22px;
+  max-width: 570px;
+}
+
+.gallery-button {
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 8px;
+  background: var(--gallery-blue);
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background .2s ease;
+}
+
+.gallery-button:hover {
+  background: #2b6be0;
+}
+
+/* FOOTER */
+
+.gallery-footer {
+  text-align: center;
+  border-top: 1px solid var(--gallery-border);
+  padding: 25px 15px;
+  color: #7f8ba0;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.gallery-footer a {
+  color: #8db5ff;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+  .tattoo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .gallery-hero {
+    padding-top: 45px;
+  }
+}
+
+@media (max-width: 520px) {
+  .gallery-hero {
+    padding: 38px 18px 28px;
+  }
+
+  .gallery-hero h1 {
+    font-size: 32px;
+  }
+
+  .gallery-section {
+    padding: 12px 13px 45px;
+  }
+
+  .tattoo-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .tattoo-image {
+    aspect-ratio: 4 / 4.5;
+  }
+
+  .tattoo-info {
+    padding: 17px;
+  }
+
+  .section-heading h2 {
+    font-size: 19px;
+  }
+
+  .gallery-cta {
+    padding: 28px 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tattoo-card,
+  .tattoo-image img {
+    transition: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="Index.html">
+      ELITE <span>INK</span>
+    </a>
+
+    <nav class="navigation">
+      <a href="Index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="prices.html">Prices</a>
+      <a href="booking.html">Book Appointment</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="gallery-hero">
+    <span class="gallery-label">ELITE INK COLLECTION</span>
+
+    <h1>
+      BLACK &amp; GREY<br>
+      <span>TATTOO ART</span>
+    </h1>
+
+    <p>
+      Explore detailed black-and-grey tattoo inspiration featuring
+      realistic portraits, powerful animal designs, skull artwork,
+      dramatic shading, and intricate sleeve compositions.
+    </p>
+  </section>
+
+  <section class="gallery-section">
+
+    <div class="section-heading">
+      <h2>Detailed Tattoo Designs</h2>
+      <span>BLACK INK · GREY SHADING</span>
+    </div>
+
+    <div class="tattoo-grid">
+
+      <!-- 1. Realistic portrait -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/034a72da-f60f-40ac-87bb-93eee76bc636/960.webp"
+            alt="Detailed black and grey realistic portrait tattoo with deep shading"
+            loading="lazy">
+
+          <span class="image-label">REALISM</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Realistic Portrait</h3>
+          <p>
+            Intricate facial details, layered shadows, and realistic
+            black-and-grey tonal work.
+          </p>
+        </div>
+      </article>
+
+      <!-- 2. Portrait and clock sleeve -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/93a5574a-6495-4d66-8d58-f5501364ed79/960.webp"
+            alt="Detailed black and grey portrait and clock themed tattoo sleeve"
+            loading="lazy">
+
+          <span class="image-label">SLEEVE ART</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Portrait &amp; Timepiece</h3>
+          <p>
+            A detailed composition combining portrait work, clock
+            elements, and carefully shaded ornamental details.
+          </p>
+        </div>
+      </article>
+
+      <!-- 3. Wolf realism -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/3e9ec91a-6b11-4f4a-87ab-5557705d4b92/960.webp"
+            alt="Highly detailed black and grey realistic wolf tattoo with fine fur shading"
+            loading="lazy">
+
+          <span class="image-label">ANIMAL REALISM</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Wolf Portrait</h3>
+          <p>
+            Fine fur textures, expressive eyes, and smooth grey shading
+            create depth and realism.
+          </p>
+        </div>
+      </article>
+
+      <!-- 4. Ship tattoo -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/dc8abfdc-0ff3-46fd-8902-b6ac44ad1007/960.webp"
+            alt="Black and grey sailing ship tattoo with detailed sails and shadows"
+            loading="lazy">
+
+          <span class="image-label">FINE DETAIL</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Classic Ship Design</h3>
+          <p>
+            Detailed sails, fine linework, dark shading, and a
+            carefully composed nautical design.
+          </p>
+        </div>
+      </article>
+
+      <!-- 5. Dramatic hooded portrait -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/279a61f1-9849-439b-86cb-6e8889e3d767/960.webp"
+            alt="Dramatic black and grey hooded portrait tattoo with fine facial shading"
+            loading="lazy">
+
+          <span class="image-label">DARK REALISM</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Dark Portrait</h3>
+          <p>
+            Smooth gradients, realistic facial features, and deep
+            black shading with detailed linework.
+          </p>
+        </div>
+      </article>
+
+      <!-- 6. Skull artwork -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/7038b0df-16d3-4f53-8a43-392ce1942b18/960.webp"
+            alt="Detailed black and grey skull and anatomical tattoo artwork"
+            loading="lazy">
+
+          <span class="image-label">SKULL ART</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Skull &amp; Anatomy</h3>
+          <p>
+            High-contrast black ink, realistic bone structure,
+            and carefully blended grey tones.
+          </p>
+        </div>
+      </article>
+
+      <!-- 7. Full sleeve -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/bcc9418f-8320-4b86-87bd-42f014df090f/960.webp"
+            alt="Intricate black and grey full sleeve tattoo with detailed dark artwork"
+            loading="lazy">
+
+          <span class="image-label">FULL SLEEVE</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Intricate Sleeve</h3>
+          <p>
+            Bold dark areas, layered patterns, and flowing
+            compositions designed to fit the arm.
+          </p>
+        </div>
+      </article>
+
+      <!-- 8. Dramatic face tattoo -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/848155d6-3b42-4bf0-8211-5467688bab8c/960.webp"
+            alt="Detailed black and grey dramatic face tattoo with expressive shading"
+            loading="lazy">
+
+          <span class="image-label">DARK ART</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Dramatic Face Design</h3>
+          <p>
+            Expressive facial details, smooth tonal transitions,
+            and deep shadows in a realistic composition.
+          </p>
+        </div>
+      </article>
+
+      <!-- 9. Skull hand tattoo -->
+
+      <article class="tattoo-card">
+        <div class="tattoo-image">
+          <img
+            src="https://miltostattoo.co.uk/media/media/tattoo/fa6b1edf-752b-451f-8a6b-7036f1dc708a/960.webp"
+            alt="Black and grey skull hand tattoo with strong shadows and fine details"
+            loading="lazy">
+
+          <span class="image-label">BLACKWORK</span>
+        </div>
+
+        <div class="tattoo-info">
+          <h3>Skull Hand Design</h3>
+          <p>
+            Bold blackwork, contrasting grey tones, and detailed
+            skull features in a compact composition.
+          </p>
+        </div>
+      </article>
+
+    </div>
+
+  </section>
+
+  <section class="gallery-cta">
+    <h2>Have a Design in Mind?</h2>
+
+    <p>
+      Explore your options and request an appointment to discuss
+      a custom black-and-grey tattoo design.
+    </p>
+
+    <a class="gallery-button" href="booking.html">
+      BOOK AN APPOINTMENT
+    </a>
+  </section>
+
+</main>
+
+<footer class="gallery-footer">
+  <p>&copy; 2026 Elite Ink. All rights reserved.</p>
+
+  <p>
+    Reference artwork is shown for inspiration and belongs to its
+    respective artist. Replace reference photos with your own studio
+    photographs before presenting them as Elite Ink's portfolio.
+  </p>
+
+  <p>
+    Reference source:
+    <a
+      href="https://miltostattoo.co.uk/portfolio?style=black-grey"
+      target="_blank"
+      rel="noopener noreferrer">
+      Miltos Tattoo — Black &amp; Grey Portfolio
+    </a>
+  </p>
+</footer>
+
+</body>
+</html>
